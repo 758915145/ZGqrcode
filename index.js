@@ -1,6 +1,11 @@
 var fs = require('fs');
-var batText = '';
-//var cp = require('child_process');
+var batText = '';//.bat文件的内容
+
+//关闭软件，向主进程发送关闭通知
+var ipcRenderer = require('electron').ipcRenderer;
+document.getElementById('close').addEventListener('click', function () {
+    ipcRenderer.send('close-main-window');
+});
 
 //输入公式的文本框
 var e_textarea = document.getElementById("text"),
@@ -52,7 +57,7 @@ document.getElementById('start').onclick = function(){
 	});
 	var imgs = document.querySelectorAll('img'),
 		imgsLength = imgs.length;
-	
+
 	//将二维码添加到canvas中
 	//各二维码在模板上的坐标 8 个一版
 	var XandY = [
@@ -65,7 +70,7 @@ document.getElementById('start').onclick = function(){
 		{x:620,y:2708},
 		{x:1767,y:2708},
 	];
-	
+
 	//将画布保存为本地图片
 	window.menu = ~~(new Date().getTime()/1000);//获取当前时间戳作为文件夹的名字
 	menu = 'qrcode'+menu;
@@ -73,27 +78,36 @@ document.getElementById('start').onclick = function(){
 		if(err)return;
 		drawAndSave();
 	});
-	
+
 	function drawAndSave(page){
 		if(page>imgsLength){
 			var body = document.body;
 			[].forEach.call(imgs,function(item){
 				body.removeChild(item.parentNode);
 			});
-			
+
 			//生成完毕
+			var cp = require('child_process');//开一个子进程，用来执行.bat文件
 			fs.writeFile('C:/Users/Administrator/Desktop/'+menu+'/点击转化为CMYK.bat',batText,function(err){
-//				cp.execFile('C:/Users/Administrator/Desktop/'+menu+'/点击转化为CMYK.bat',[],{
-//					cwd:'C:/Users/Administrator/Desktop/'+menu
-//				},function(err, stdout, stderr){
-//					if(err){
-//						console.log(err);
-//					}
-//				});
-				that.innerHTML = '生成二维码';
-				that.className = that.className.replace(/ disabled/,'');
+				cp.execFile('C:/Users/Administrator/Desktop/'+menu+'/点击转化为CMYK.bat',[],{
+					cwd:'C:/Users/Administrator/Desktop/'+menu
+				},function(err, stdout, stderr){
+					if(err){
+						console.log(err);
+						alert(err)
+					}else{
+						//关闭软件
+						//ipcRenderer.send('close-main-window');
+
+						//删除.bat文件
+						fs.unlink('C:/Users/Administrator/Desktop/'+menu+'/点击转化为CMYK.bat',function(){
+							that.innerHTML = '生成二维码';
+							that.className = that.className.replace(/ disabled/,'');
+						});
+					}
+				});
 			});
-			
+
 			return;
 		}
 		var thisPage = page||8;
@@ -103,7 +117,7 @@ document.getElementById('start').onclick = function(){
 		canvas.height = 3508;
 		var img = document.createElement('img');
 		img.src = './img/ercode('+(thisPage-7)+'-'+thisPage+').png';
-		
+
 		imgIsReady();
 		function imgIsReady(){
 			if(img.width){
@@ -113,7 +127,7 @@ document.getElementById('start').onclick = function(){
 				setTimeout(imgIsReady,100);
 			}
 		}
-		
+
 		function drawErCode(len){
 			[].forEach.call(imgs,function(item,index){
 				if(index>=len-8 && index<len)
@@ -126,7 +140,7 @@ document.getElementById('start').onclick = function(){
 			});
 			saveErcode();
 		}
-		
+
 		function saveErcode(){
 			var url = 'C:/Users/Administrator/Desktop/'+menu+'/'+'ercode('+(thisPage-7)+'-'+thisPage+')'+'.jpg';
 			fs.writeFile(
@@ -145,9 +159,3 @@ document.getElementById('start').onclick = function(){
 		}
 	}
 };
-//向主进程发送关闭通知
-var ipcRenderer = require('electron').ipcRenderer;
-document.getElementById('close').addEventListener('click', function () {
-	console.log(111);
-    ipcRenderer.send('close-main-window');
-});
