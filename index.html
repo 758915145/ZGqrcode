@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>批量生成二维码</title>
+		<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css"/>
+		<script src="qrcode.js"></script>
+		<style>
+			body{font-family: "微软雅黑";background-color:transparent;position:absolute;top:0;left:0;bottom:0;right:0;}
+			.mt50{margin-top:50px;}
+			.mt10{margin-top:10px;}
+			.md{margin-left:auto;margin-right:auto;display:block;}
+			#text{display:none;height:150px;width:100%;padding:10px;margin-top:30px;}
+			#close{position:absolute;right:10px;top:0;}
+			.laytou{
+				background-image:url('./img/asanoha-400px.png');
+				background-color:rgba(255,255,255,.8);
+				border-radius:5px;
+				padding-left:10%;padding-right:10%;
+				box-sizing: border-box;
+				position:absolute;top:0;left:0;bottom:0;right:0;
+				box-shadow:0 5px 20px #999;
+				margin:20px;
+				-webkit-app-region: drag;
+			}
+			.btn,input,textarea{
+				-webkit-app-region: no-drag;
+			}
+		</style>
+	</head>
+<body>
+	<div class="laytou">
+		<button type="button" class="btn btn-danger mt10 md" id="close"><span class="glyphicon glyphicon-remove"></span></button>
+		<div class="input-group mt50">
+		  <span class="input-group-addon">起始ID</span>
+		  <input type="text" class="form-control" placeholder="origin">
+		</div>
+		<div class="input-group mt10">
+		  <span class="input-group-addon">截止ID</span>
+		  <input type="text" class="form-control" placeholder="end">
+		</div>
+		<textarea id="text" placeholder="请输入生成公式">(function(){
+var result='',
+url='http://dk.zgics.com/p.php/d/';
+for(var i=8894;i<8910;i++)
+result+=url+i+',';
+return result
+})()</textarea>
+		<button type="button" class="btn btn-primary mt10 md" id="start">生成二维码</button>
+		<button type="button" class="btn btn-success mt10 md" id="custom">自定义生成公式</button>
+		<p style="text-align:center;color:#999;font-size:12px;" id="alert"></p>
+	</div>
+	<div id="qrcode" style="display:none;"></div>
+<script>
+require('./index.js');
+</script>
+</body>
