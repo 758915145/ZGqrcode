@@ -32,17 +32,17 @@
 	<div class="laytou">
 		<button type="button" class="btn btn-danger mt10 md" id="close"><span class="glyphicon glyphicon-remove"></span></button>
 		<div class="input-group mt50">
-		  <span class="input-group-addon">起始ID</span>
+		  <span class="input-group-addon">开始ID</span>
 		  <input type="text" class="form-control" placeholder="origin">
 		</div>
 		<div class="input-group mt10">
-		  <span class="input-group-addon">截止ID</span>
+		  <span class="input-group-addon">最后ID</span>
 		  <input type="text" class="form-control" placeholder="end">
 		</div>
 		<textarea id="text" placeholder="请输入生成公式">(function(){
 var result='',
 url='http://dk.zgics.com/p.php/d/';
-for(var i=8894;i<8910;i++)
+for(var i=8894;i<=8910;i++)
 result+=url+i+',';
 return result
 })()</textarea>

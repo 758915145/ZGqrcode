@@ -94,7 +94,7 @@ document.getElementById('start').onclick = function(){
 				},function(err, stdout, stderr){
 					if(err){
 						console.log(err);
-						alert(err)
+						alert('转换成cmyk时出错了，打开文件夹，手动点击转换')
 					}else{
 						//关闭软件
 						//ipcRenderer.send('close-main-window');
