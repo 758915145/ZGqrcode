@@ -18,6 +18,7 @@
 6、等5完成后，在cmd命令行输入：npm start
 
 7、等6完成后，输入「开始ID」和「最后ID」，点击生成二维码。
+![震革二维码生成软件使用说明](https://raw.githubusercontent.com/758915145/resources/master/ZGqrcode/using.png)
 
 8、等「请稍候」三个字重新变成「生成二维码」之后，可在桌面找到生成的二维码（在「请稍后」状态中，不要打开桌面生成的二维码文件夹）。
 
